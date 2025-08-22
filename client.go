@@ -51,11 +51,11 @@ func NewClient(config *Config, httpClient *http.Client) Client {
 	}
 }
 
-// sign generates a signature for the given data using the client's private key.
-func (c client) sign(data []byte) string {
+// sign generates a hash signature for the given data using the client's private key.
+func (c client) sign(base64Data string) string {
 	hasher := sha1.New()
 	hasher.Write([]byte(c.config.PrivateKey))
-	hasher.Write(data)
+	hasher.Write([]byte(base64Data))
 	hasher.Write([]byte(c.config.PrivateKey))
 	return base64.StdEncoding.EncodeToString(hasher.Sum(nil))
 }
@@ -103,7 +103,7 @@ func (c client) sendClientRequest(payload any) (*http.Response, error) {
 	if err != nil {
 		return nil, fmt.Errorf("liqpay client: failed to encode payload: %w", err)
 	}
-	signature := c.sign([]byte(encodedJSON))
+	signature := c.sign(encodedJSON)
 
 	formData := url.Values{
 		"data":      {encodedJSON},
@@ -146,7 +146,7 @@ func (c client) prepareServerRequest(payload any) (*http.Request, error) {
 	if err != nil {
 		return nil, fmt.Errorf("liqpay client: failed to encode payload: %w", err)
 	}
-	signature := c.sign([]byte(encodedJSON))
+	signature := c.sign(encodedJSON)
 
 	formData := url.Values{
 		"data":      {encodedJSON},
@@ -378,18 +378,9 @@ func (c client) Refund(orderID string, amount string) (*RefundResponse, error) {
 
 // ValidateCallback validates the callback data and signature received from LiqPay.
 func (c client) ValidateCallback(data string, signature string) error {
-	decodedData, err := base64.StdEncoding.DecodeString(data)
-	if err != nil {
-		return fmt.Errorf("liqpay client: failed to decode data: %w", err)
-	}
+	expectedSignature := c.sign(data)
 
-	expectedSignature := c.sign(decodedData)
-	decodedSignature, err := base64.StdEncoding.DecodeString(signature)
-	if err != nil {
-		return fmt.Errorf("liqpay client: failed to decode signature: %w", err)
-	}
-
-	if !bytes.Equal(decodedSignature, []byte(expectedSignature)) {
+	if signature != expectedSignature {
 		return errors.New("liqpay client: callback signature verification failed")
 	}
 
