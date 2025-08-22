@@ -308,21 +308,21 @@ type Callback struct {
 	CardToken          string  `json:"card_token"`          // Sender's card token
 	CommissionCredit   float64 `json:"commission_credit"`   // Receiver's commission in currency_credit
 	CommissionDebit    float64 `json:"commission_debit"`    // Sender's commission in currency_debit
-	CompletionDate     string  `json:"completion_date"`     // Date of funds debit
-	CreateDate         string  `json:"create_date"`         // Payment creation date
+	CompletionDate     int64   `json:"completion_date"`     // Date of funds debit
+	CreateDate         int64   `json:"create_date"`         // Payment creation date
 	Currency           string  `json:"currency"`            // Payment currency
 	CurrencyCredit     string  `json:"currency_credit"`     // Currency of credit transaction
 	CurrencyDebit      string  `json:"currency_debit"`      // Currency of debit transaction
 	Customer           string  `json:"customer"`            // Unique identifier of the customer on merchant's site
 	Description        string  `json:"description"`         // Payment comment
-	EndDate            string  `json:"end_date"`            // End/change date of payment
+	EndDate            int64   `json:"end_date"`            // End/change date of payment
 	ErrCode            string  `json:"err_code"`            // Error code
 	ErrDescription     string  `json:"err_description"`     // Error description
 	Info               string  `json:"info"`                // Additional information about the payment
 	IP                 string  `json:"ip"`                  // Sender's IP address
 	Is3DS              bool    `json:"is_3ds"`              // Indicates if the transaction passed 3DS verification
 	LiqpayOrderID      string  `json:"liqpay_order_id"`     // Payment order_id in LiqPay system
-	MpiEci             int     `json:"mpi_eci"`             // MPI ECI value
+	MpiEci             string  `json:"mpi_eci"`             // MPI ECI value
 	OrderID            string  `json:"order_id"`            // Payment order_id
 	PaymentID          int     `json:"payment_id"`          // Payment ID in LiqPay system
 	Paytype            string  `json:"paytype"`             // Payment method: card, privat24, masterpass, moment_part, cash, invoice, qr
@@ -334,7 +334,7 @@ type Callback struct {
 	RRNDebit           string  `json:"rrn_debit"`           // Unique transaction number in issuer and acquiring bank's system (debit)
 	SenderBonus        float64 `json:"sender_bonus"`        // Sender's bonus in payment currency
 	SenderCardBank     string  `json:"sender_card_bank"`    // Sender's card bank
-	SenderCardCountry  string  `json:"sender_card_country"` // Sender's card country ISO 3166-1 code
+	SenderCardCountry  int     `json:"sender_card_country"` // Sender's card country ISO 3166-1 code
 	SenderCardMask2    string  `json:"sender_card_mask2"`   // Sender's card mask
 	SenderCardType     string  `json:"sender_card_type"`    // Sender's card type (MC/Visa)
 	SenderCommission   float64 `json:"sender_commission"`   // Sender's commission in payment currency
