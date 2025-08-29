@@ -20,6 +20,16 @@ const (
 	ActionInvoiceCancel   Action = "invoice_cancel"   // Cancel invoice
 )
 
+func (a Action) IsValid() bool {
+	switch a {
+	case ActionPay, ActionHold, ActionSubscribe, ActionSubscribeUpdate,
+		ActionUnsubscribe, ActionStatus, ActionPayDonate, ActionPaySplit,
+		ActionAuth, ActionRegular, ActionRefund, ActionInvoiceSend, ActionInvoiceCancel:
+		return true
+	}
+	return false
+}
+
 type Currency string
 
 const (
@@ -28,12 +38,28 @@ const (
 	CurrencyUAH Currency = "UAH"
 )
 
+func (c Currency) IsValid() bool {
+	switch c {
+	case CurrencyUSD, CurrencyEUR, CurrencyUAH:
+		return true
+	}
+	return false
+}
+
 type Language string
 
 const (
 	LanguageUK Language = "uk"
 	LanguageEN Language = "en"
 )
+
+func (l Language) IsValid() bool {
+	switch l {
+	case LanguageUK, LanguageEN:
+		return true
+	}
+	return false
+}
 
 type PayType string
 
@@ -49,6 +75,14 @@ const (
 	PayTypeQRCodeScanning PayType = "qr"          // Pay through QR code scanning
 )
 
+func (p PayType) IsValid() bool {
+	switch p {
+	case PayTypeApplePay, PayTypeGooglePay, PayTypeCard, PayTypePrivat24, PayTypeMomentPart, PayTypePayPart, PayTypeCash, PayTypeInvoice, PayTypeQRCodeScanning:
+		return true
+	}
+	return false
+}
+
 type Status string
 
 const (
@@ -57,6 +91,14 @@ const (
 	StatusReversed Status = "reversed" // Payment refunded
 	StatusSuccess  Status = "success"  // Successful payment
 )
+
+func (s Status) IsValid() bool {
+	switch s {
+	case StatusError, StatusFailure, StatusReversed, StatusSuccess:
+		return true
+	}
+	return false
+}
 
 type Item struct {
 	Amount float64 `json:"amount"` // Quantity/volume
@@ -155,6 +197,14 @@ const (
 	SubscribePeriodMonthly SubscribePeriod = "month" // Monthly
 	SubscribePeriodYearly  SubscribePeriod = "year"  // Yearly
 )
+
+func (s SubscribePeriod) IsValid() bool {
+	switch s {
+	case SubscribePeriodDaily, SubscribePeriodWeekly, SubscribePeriodMonthly, SubscribePeriodYearly:
+		return true
+	}
+	return false
+}
 
 type SubscriptionRequest struct {
 	Action             Action          `json:"action"`                          // Action to perform, e.g., "subscribe"
@@ -289,6 +339,14 @@ const (
 	CancelInvoiceResultOK    = "ok"
 	CancelInvoiceResultError = "error"
 )
+
+func (c CancelInvoiceResult) IsValid() bool {
+	switch c {
+	case CancelInvoiceResultOK, CancelInvoiceResultError:
+		return true
+	}
+	return false
+}
 
 type CancelInvoiceResponse struct {
 	InvoiceID int64               `json:"invoice_id"` // Unique identifier of the invoice
