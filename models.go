@@ -86,15 +86,52 @@ func (p PayType) IsValid() bool {
 type Status string
 
 const (
-	StatusError    Status = "error"    // Failed payment. Data is incorrect
-	StatusFailure  Status = "failure"  // Failed payment
-	StatusReversed Status = "reversed" // Payment refunded
-	StatusSuccess  Status = "success"  // Successful payment
+	// Final payment statuses
+	StatusError        Status = "error"        // Failed payment. Incorrectly filled data
+	StatusFailure      Status = "failure"      // Failed payment
+	StatusReversed     Status = "reversed"     // Payment refunded
+	StatusSubscribed   Status = "subscribed"   // Subscription successfully created
+	StatusSuccess      Status = "success"      // Successful payment
+	StatusUnsubscribed Status = "unsubscribed" // Subscription successfully deactivated
+
+	// Statuses requiring payment confirmation
+	Status3DSVerify       Status = "3ds_verify"       // 3DS verification required
+	StatusCaptchaVerify   Status = "captcha_verify"   // Awaiting captcha confirmation
+	StatusCVVVerify       Status = "cvv_verify"       // CVV verification required
+	StatusIVRVerify       Status = "ivr_verify"       // Awaiting IVR call confirmation
+	StatusOTPVerify       Status = "otp_verify"       // OTP confirmation required
+	StatusPasswordVerify  Status = "password_verify"  // Awaiting Privat24 app password confirmation
+	StatusPhoneVerify     Status = "phone_verify"     // Awaiting phone number input
+	StatusPinVerify       Status = "pin_verify"       // Awaiting pin-code confirmation
+	StatusReceiverVerify  Status = "receiver_verify"  // Receiver data input required
+	StatusSenderVerify    Status = "sender_verify"    // Sender data input required
+	StatusSenderAppVerify Status = "senderapp_verify" // Awaiting confirmation in Privat24 app
+	StatusWaitQR          Status = "wait_qr"          // Awaiting QR code scanning
+	StatusWaitSender      Status = "wait_sender"      // Awaiting payment confirmation in Privat24/SENDER app
+
+	// Other payment statuses
+	StatusCashWait         Status = "cash_wait"         // Awaiting cash payment at TSO
+	StatusHoldWait         Status = "hold_wait"         // Amount successfully blocked on sender's account
+	StatusInvoiceWait      Status = "invoice_wait"      // Invoice created successfully, awaiting payment
+	StatusPrepared         Status = "prepared"          // Payment created, awaiting completion by sender
+	StatusProcessing       Status = "processing"        // Payment is being processed
+	StatusWaitAccept       Status = "wait_accept"       // Funds deducted but merchant not verified yet
+	StatusWaitCard         Status = "wait_card"         // Refund method not set for recipient
+	StatusWaitCompensation Status = "wait_compensation" // Payment successful, will be credited in daily posting
+	StatusWaitLC           Status = "wait_lc"           // Letter of credit - funds deducted, awaiting delivery confirmation
+	StatusWaitReserve      Status = "wait_reserve"      // Funds reserved for refund based on previous application
+	StatusWaitSecure       Status = "wait_secure"       // Payment under verification
 )
 
 func (s Status) IsValid() bool {
 	switch s {
-	case StatusError, StatusFailure, StatusReversed, StatusSuccess:
+	case StatusError, StatusFailure, StatusReversed, StatusSubscribed, StatusSuccess, StatusUnsubscribed,
+		Status3DSVerify, StatusCaptchaVerify, StatusCVVVerify, StatusIVRVerify, StatusOTPVerify,
+		StatusPasswordVerify, StatusPhoneVerify, StatusPinVerify, StatusReceiverVerify, StatusSenderVerify,
+		StatusSenderAppVerify, StatusWaitQR, StatusWaitSender,
+		StatusCashWait, StatusHoldWait, StatusInvoiceWait, StatusPrepared, StatusProcessing,
+		StatusWaitAccept, StatusWaitCard, StatusWaitCompensation, StatusWaitLC, StatusWaitReserve,
+		StatusWaitSecure:
 		return true
 	}
 	return false
