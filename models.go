@@ -1,7 +1,5 @@
 package liqpay
 
-import "time"
-
 type Action string
 
 const (
@@ -255,11 +253,12 @@ type SubscriptionRequest struct {
 	IP                 string          `json:"ip"`                              // Client IP
 	OrderID            string          `json:"order_id"`                        // Unique purchase ID in your shop. Maximum length is 255 symbols
 	Phone              string          `json:"phone"`                           // Payer's mobile phone.
-	Language           string          `json:"language,omitempty"`              // Customer's language uk, en
+	Language           Language        `json:"language,omitempty"`              // Customer's language uk, en
 	Prepare            string          `json:"prepare,omitempty"`               // Preliminary preparation of the payment
 	RecurringByToken   string          `json:"recurringbytoken,omitempty"`      // Generate payer card_token
 	Recurring          bool            `json:"recurring,omitempty"`             // Token recurring payment flag
 	ServerURL          string          `json:"server_url,omitempty"`            // URL API in your store for notifications of payment status change
+	ResultURL          string          `json:"result_url,omitempty"`            // URL of your shop where the buyer would be redirected after completion of the purchase. Maximum length 510 symbols
 	Subscribe          string          `json:"subscribe,omitempty"`             // Regular payment
 	SubscribeDateStart string          `json:"subscribe_date_start,omitempty"`  // Date of the first payment
 	SubscribePeriod    SubscribePeriod `json:"subscribe_periodicity,omitempty"` // Period of payments
@@ -279,40 +278,40 @@ type SubscriptionRequest struct {
 }
 
 type SubscriptionResponse struct {
-	AcqID              int64     `json:"acq_id"`              // Acquirer ID
-	Action             Action    `json:"action"`              // Transaction type
-	AgentCommission    float64   `json:"agent_commission"`    // Agent commission in payment currency
-	Amount             float64   `json:"amount"`              // Payment amount
-	AmountBonus        float64   `json:"amount_bonus"`        // Payer bonus amount in payment currency debit
-	AmountCredit       float64   `json:"amount_credit"`       // Payment amount for credit in currency of currency_credit
-	AmountDebit        float64   `json:"amount_debit"`        // Payment amount for debit in currency of currency_debit
-	CardToken          string    `json:"card_token"`          // Sender's card token
-	CommissionCredit   float64   `json:"commission_credit"`   // Commission from the receiver in currency_credit
-	CommissionDebit    float64   `json:"commission_debit"`    // Commission from the sender in currency_debit
-	CreateDate         time.Time `json:"create_date"`         // Date of payment creation
-	Currency           Currency  `json:"currency"`            // Payment currency
-	CurrencyCredit     string    `json:"currency_credit"`     // Transaction currency of credit
-	CurrencyDebit      string    `json:"currency_debit"`      // Transaction currency of debit
-	Description        string    `json:"description"`         // Payment description
-	EndDate            string    `json:"end_date"`            // Date of payment edition/end
-	Is3DS              bool      `json:"is_3ds"`              // Whether the transaction passed with 3DS
-	LiqpayOrderID      string    `json:"liqpay_order_id"`     // Payment order_id in LiqPay system
-	MPIECI             int64     `json:"mpi_eci"`             // MPI ECI value
-	OrderID            string    `json:"order_id"`            // Order_id payment
-	PaymentID          int64     `json:"payment_id"`          // Payment id in LiqPay system
-	PayType            string    `json:"paytype"`             // Methods of payment
-	PublicKey          string    `json:"public_key"`          // Shop public key
-	ReceiverCommission float64   `json:"receiver_commission"` // Receiver commission in payment currency
-	SenderBonus        float64   `json:"sender_bonus"`        // Sender's bonus in the payment currency
-	SenderCardBank     string    `json:"sender_card_bank"`    // Sender's card bank
-	SenderCardCountry  string    `json:"sender_card_country"` // Sender's card country
-	SenderCardMask2    string    `json:"sender_card_mask2"`   // Sender's card
-	SenderCardType     string    `json:"sender_card_type"`    // Sender's card type MC/Visa
-	SenderCommission   float64   `json:"sender_commission"`   // Commission from the sender in the payment currency
-	SenderPhone        string    `json:"sender_phone"`        // Sender's phone number
-	Status             Status    `json:"status"`              // Payment status
-	TransactionID      int64     `json:"transaction_id"`      // Id transactions in the LiqPay system
-	Version            int       `json:"version"`             // Version API
+	AcqID              int64    `json:"acq_id"`              // Acquirer ID
+	Action             Action   `json:"action"`              // Transaction type
+	AgentCommission    float64  `json:"agent_commission"`    // Agent commission in payment currency
+	Amount             float64  `json:"amount"`              // Payment amount
+	AmountBonus        float64  `json:"amount_bonus"`        // Payer bonus amount in payment currency debit
+	AmountCredit       float64  `json:"amount_credit"`       // Payment amount for credit in currency of currency_credit
+	AmountDebit        float64  `json:"amount_debit"`        // Payment amount for debit in currency of currency_debit
+	CardToken          string   `json:"card_token"`          // Sender's card token
+	CommissionCredit   float64  `json:"commission_credit"`   // Commission from the receiver in currency_credit
+	CommissionDebit    float64  `json:"commission_debit"`    // Commission from the sender in currency_debit
+	CreateDate         int64    `json:"create_date"`         // Date of payment creation
+	Currency           Currency `json:"currency"`            // Payment currency
+	CurrencyCredit     string   `json:"currency_credit"`     // Transaction currency of credit
+	CurrencyDebit      string   `json:"currency_debit"`      // Transaction currency of debit
+	Description        string   `json:"description"`         // Payment description
+	EndDate            string   `json:"end_date"`            // Date of payment edition/end
+	Is3DS              bool     `json:"is_3ds"`              // Whether the transaction passed with 3DS
+	LiqpayOrderID      string   `json:"liqpay_order_id"`     // Payment order_id in LiqPay system
+	MPIECI             int64    `json:"mpi_eci"`             // MPI ECI value
+	OrderID            string   `json:"order_id"`            // Order_id payment
+	PaymentID          int64    `json:"payment_id"`          // Payment id in LiqPay system
+	PayType            string   `json:"paytype"`             // Methods of payment
+	PublicKey          string   `json:"public_key"`          // Shop public key
+	ReceiverCommission float64  `json:"receiver_commission"` // Receiver commission in payment currency
+	SenderBonus        float64  `json:"sender_bonus"`        // Sender's bonus in the payment currency
+	SenderCardBank     string   `json:"sender_card_bank"`    // Sender's card bank
+	SenderCardCountry  string   `json:"sender_card_country"` // Sender's card country
+	SenderCardMask2    string   `json:"sender_card_mask2"`   // Sender's card
+	SenderCardType     string   `json:"sender_card_type"`    // Sender's card type MC/Visa
+	SenderCommission   float64  `json:"sender_commission"`   // Commission from the sender in the payment currency
+	SenderPhone        string   `json:"sender_phone"`        // Sender's phone number
+	Status             Status   `json:"status"`              // Payment status
+	TransactionID      int64    `json:"transaction_id"`      // Id transactions in the LiqPay system
+	Version            int      `json:"version"`             // Version API
 }
 
 type EditSubscriptionRequest struct {
@@ -424,7 +423,7 @@ type Callback struct {
 	PublicKey          string  `json:"public_key"`          // Merchant's public key
 	ReceiverCommission float64 `json:"receiver_commission"` // Receiver's commission in payment currency
 	RedirectTo         string  `json:"redirect_to"`         // Link to redirect the client for 3DS verification
-	RefundDateLast     string  `json:"refund_date_last"`    // Last refund date for the payment
+	RefundDateLast     int64   `json:"refund_date_last"`    // Last refund date for the payment
 	RRNCredit          string  `json:"rrn_credit"`          // Unique transaction number in issuer and acquiring bank's system (credit)
 	RRNDebit           string  `json:"rrn_debit"`           // Unique transaction number in issuer and acquiring bank's system (debit)
 	SenderBonus        float64 `json:"sender_bonus"`        // Sender's bonus in payment currency
