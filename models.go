@@ -293,10 +293,10 @@ type SubscriptionResponse struct {
 	CurrencyCredit     string   `json:"currency_credit"`     // Transaction currency of credit
 	CurrencyDebit      string   `json:"currency_debit"`      // Transaction currency of debit
 	Description        string   `json:"description"`         // Payment description
-	EndDate            string   `json:"end_date"`            // Date of payment edition/end
+	EndDate            int64    `json:"end_date"`            // Date of payment edition/end
 	Is3DS              bool     `json:"is_3ds"`              // Whether the transaction passed with 3DS
 	LiqpayOrderID      string   `json:"liqpay_order_id"`     // Payment order_id in LiqPay system
-	MPIECI             int64    `json:"mpi_eci"`             // MPI ECI value
+	MPIECI             string   `json:"mpi_eci"`             // MPI ECI value
 	OrderID            string   `json:"order_id"`            // Order_id payment
 	PaymentID          int64    `json:"payment_id"`          // Payment id in LiqPay system
 	PayType            string   `json:"paytype"`             // Methods of payment
@@ -304,7 +304,7 @@ type SubscriptionResponse struct {
 	ReceiverCommission float64  `json:"receiver_commission"` // Receiver commission in payment currency
 	SenderBonus        float64  `json:"sender_bonus"`        // Sender's bonus in the payment currency
 	SenderCardBank     string   `json:"sender_card_bank"`    // Sender's card bank
-	SenderCardCountry  string   `json:"sender_card_country"` // Sender's card country
+	SenderCardCountry  int      `json:"sender_card_country"` // Sender's card country
 	SenderCardMask2    string   `json:"sender_card_mask2"`   // Sender's card
 	SenderCardType     string   `json:"sender_card_type"`    // Sender's card type MC/Visa
 	SenderCommission   float64  `json:"sender_commission"`   // Commission from the sender in the payment currency
