@@ -18,6 +18,10 @@ const (
 	ActionInvoiceCancel   Action = "invoice_cancel"   // Cancel invoice
 )
 
+func (a Action) String() string {
+	return string(a)
+}
+
 func (a Action) IsValid() bool {
 	switch a {
 	case ActionPay, ActionHold, ActionSubscribe, ActionSubscribeUpdate,
@@ -36,6 +40,10 @@ const (
 	CurrencyUAH Currency = "UAH"
 )
 
+func (c Currency) String() string {
+	return string(c)
+}
+
 func (c Currency) IsValid() bool {
 	switch c {
 	case CurrencyUSD, CurrencyEUR, CurrencyUAH:
@@ -50,6 +58,10 @@ const (
 	LanguageUK Language = "uk"
 	LanguageEN Language = "en"
 )
+
+func (l Language) String() string {
+	return string(l)
+}
 
 func (l Language) IsValid() bool {
 	switch l {
@@ -72,6 +84,10 @@ const (
 	PayTypeInvoice        PayType = "invoice"     // Pay with an invoice
 	PayTypeQRCodeScanning PayType = "qr"          // Pay through QR code scanning
 )
+
+func (p PayType) String() string {
+	return string(p)
+}
 
 func (p PayType) IsValid() bool {
 	switch p {
@@ -120,6 +136,10 @@ const (
 	StatusWaitReserve      Status = "wait_reserve"      // Funds reserved for refund based on previous application
 	StatusWaitSecure       Status = "wait_secure"       // Payment under verification
 )
+
+func (s Status) String() string {
+	return string(s)
+}
 
 func (s Status) IsValid() bool {
 	switch s {
@@ -232,6 +252,10 @@ const (
 	SubscribePeriodMonthly SubscribePeriod = "month" // Monthly
 	SubscribePeriodYearly  SubscribePeriod = "year"  // Yearly
 )
+
+func (s SubscribePeriod) String() string {
+	return string(s)
+}
 
 func (s SubscribePeriod) IsValid() bool {
 	switch s {
@@ -375,6 +399,10 @@ const (
 	CancelInvoiceResultOK    = "ok"
 	CancelInvoiceResultError = "error"
 )
+
+func (c CancelInvoiceResult) String() string {
+	return string(c)
+}
 
 func (c CancelInvoiceResult) IsValid() bool {
 	switch c {
