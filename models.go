@@ -464,7 +464,7 @@ type Callback struct {
 	SenderLastName     string  `json:"sender_last_name"`    // Sender's last name
 	SenderPhone        string  `json:"sender_phone"`        // Sender's phone number
 	Status             string  `json:"status"`              // Payment status
-	WaitReserveStatus  string  `json:"wait_reserve_status"` // Additional payment status indicating that the current payment is reserved for refund
+	WaitReserveStatus  bool    `json:"wait_reserve_status"` // Additional payment status indicating that the current payment is reserved for refund
 	Token              string  `json:"token"`               // Payment token
 	Type               string  `json:"type"`                // Payment type
 	Version            int     `json:"version"`             // API version
