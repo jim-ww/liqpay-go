@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -115,6 +116,17 @@ func (c client) sendClientRequest(payload any) (*http.Response, error) {
 		return nil, fmt.Errorf("liqpay client: failed to parse liqpay form: %w", err)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusBadRequest {
+		if c.config.Debug {
+			bodyBytes, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return nil, fmt.Errorf("liqpay client: failed to read response body: %w", err)
+			}
+			fmt.Printf("[LIQPAY DEBUG]: liqpay error response: %s\n", bodyBytes)
+		}
+		return nil, fmt.Errorf("liqpay client: unexpected status code: %d", resp.StatusCode)
+	}
 
 	return resp, nil
 }
